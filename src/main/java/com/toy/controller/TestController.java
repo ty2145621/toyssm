@@ -54,13 +54,14 @@ public class TestController {
                                         @RequestBody ToyAdmin toyAdmin) throws IOException {
 
         toyAdmin.setId(456);
-        toyAdmin.setUsername("tianye");
+        toyAdmin.setUsername("田野");
         toyAdmin.setPassword("miao");
 
         Gson gson = new Gson();
         String obj = gson.toJson(toyAdmin);
 
         response.sendRedirect("/common/success");
+        response.setContentType("text/html; charset=utf-8");   //防止中文乱码
         return obj;
     }
 
