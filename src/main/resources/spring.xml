@@ -9,9 +9,11 @@
            http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
     <import resource ="spring-mybatis.xml"/>
-    <!--<import resource="spring-mvc.xml" />-->
-    <import resource="spring-interceptor.xml" />
+    <!--拦截器，判断是否登录-->
+    <!--<import resource="spring-interceptor.xml" />-->
+    <!--常量-->
     <import resource="spring-contant.xml" />
+    <!--ViewResolver和静态资源配置-->
     <import resource="spring-view.xml" />
 
 

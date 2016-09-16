@@ -10,7 +10,8 @@
            http://www.springframework.org/schema/aop
            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-
+    <!--aop暂时没有处理任何事情，只有一个标准输出-->
     <import resource="spring-aop.xml" />
+    <!--自动识别controller，开启注解驱动-->
     <import resource="spring-mvc.xml" />
 </beans>

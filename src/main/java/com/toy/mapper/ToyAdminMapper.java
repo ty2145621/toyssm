@@ -93,4 +93,6 @@ public interface ToyAdminMapper {
      * @mbggenerated Tue Aug 02 11:49:49 CST 2016
      */
     int updateByPrimaryKey(ToyAdmin record);
+
+    ToyAdmin findByName(String username);
 }

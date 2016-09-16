@@ -13,4 +13,5 @@ import java.util.List;
 
 public interface IAdminService {
     List<ToyAdmin> login(ToyAdminExample toyAdminExample) throws Exception;
+    ToyAdmin findByName(String username) throws Exception;
 }

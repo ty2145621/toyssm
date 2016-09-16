@@ -4,6 +4,10 @@ import com.toy.dao.ToyAdmin;
 import com.toy.dao.ToyAdminExample;
 import com.toy.interceptor.LogHandlerInterceptor;
 import com.toy.service.IAdminService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.Security;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,21 +50,21 @@ public class ToyAdminController {
         String password = request.getParameter("password");
         ModelAndView modelAndView = new ModelAndView("login");
 
-        String validate = "";
+        String msg = "";
         if ("".equals(userName) || userName == null)
         {
-            validate = "User Name ";
+            msg = "User Name ";
         }
 
         if ("".equals(password) || password == null)
         {
             modelAndView.addObject("userName", userName);
-            validate += "Password ";
+            msg += "Password ";
         }
 
-        if (!validate.equals(""))
+        if (!msg.equals(""))
         {
-            modelAndView.addObject("error", validate + "can't be null!");
+            modelAndView.addObject("error", msg + "can't be null!");
             modelAndView.setViewName("login");
             return modelAndView;
         }
@@ -75,15 +80,15 @@ public class ToyAdminController {
         attributes.addAttribute("userName", userName);
         attributes.addAttribute("password", password);
 */
-        ToyAdminExample toyAdminExample = new ToyAdminExample();
+        /*ToyAdminExample toyAdminExample = new ToyAdminExample();
         ToyAdminExample.Criteria criteria = toyAdminExample.createCriteria();
 
         criteria.andUsernameEqualTo(userName);
         criteria.andPasswordEqualTo(password);
-        /*推荐使用这种方法 添加where语句
+        *//*推荐使用这种方法 添加where语句
         toyAdminExample.or().andUsernameEqualTo(userName)
                             .andPasswordEqualTo(password);
-        */
+        *//*
 
         List<ToyAdmin> result = adminService.login(toyAdminExample);
 
@@ -106,7 +111,51 @@ public class ToyAdminController {
 
             modelAndView.setViewName("login");
             return  modelAndView;
+        }*/
+
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        token.setRememberMe(true);
+        Subject subject = SecurityUtils.getSubject();
+
+        try {
+            subject.login(token);
+            if (subject.isAuthenticated()) {
+                return new ModelAndView("redirect:/user/list");
+            } else {
+                modelAndView.setViewName("login");
+                return  modelAndView;
+            }
+        } catch (IncorrectCredentialsException e) {
+            msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
+        } catch (ExcessiveAttemptsException e) {
+            msg = "登录失败次数过多";
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
+        } catch (LockedAccountException e) {
+            msg = "帐号已被锁定. The account for username " + token.getPrincipal() + " was locked.";
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
+        } catch (DisabledAccountException e) {
+            msg = "帐号已被禁用. The account for username " + token.getPrincipal() + " was disabled.";
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
+        } catch (ExpiredCredentialsException e) {
+            msg = "帐号已过期. the account for username " + token.getPrincipal() + "  was expired.";
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
+        } catch (UnknownAccountException e) {
+            msg = "帐号不存在. There is no user with username of " + token.getPrincipal();
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
+        } catch (UnauthorizedException e) {
+            msg = "您没有得到相应的授权！" + e.getMessage();
+            modelAndView.addObject("message", msg);
+            System.out.println(msg);
         }
+        modelAndView.setViewName("login");
+        return  modelAndView;
     }
 
     @RequestMapping(value = "/loginView")

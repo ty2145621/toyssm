@@ -253,4 +253,11 @@
       password = #{password,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="findByName" parameterType="java.lang.String" resultType="com.toy.dao.ToyAdmin">
+    SELECT <include refid="Base_Column_List" />
+    FROM toy_admin
+    WHERE username = #{username}
+
+  </select>
 </mapper>

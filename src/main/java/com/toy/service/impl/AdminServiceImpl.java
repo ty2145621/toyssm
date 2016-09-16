@@ -25,4 +25,10 @@ public class AdminServiceImpl implements IAdminService{
         List<ToyAdmin> result = toyAdminMapper.selectByExample(toyAdminExample);
         return result;
     }
+
+    @Override
+    public ToyAdmin findByName(String username) throws Exception
+    {
+        return toyAdminMapper.findByName(username);
+    }
 }

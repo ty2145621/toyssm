@@ -9,13 +9,13 @@
            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
            http://www.springframework.org/schema/mvc
            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-<mvc:interceptors>
-    <bean class="com.toy.interceptor.LogHandlerInterceptor" />
-    <mvc:interceptor>
-        <mvc:mapping path="/user/**"/>
-        <bean class="com.toy.interceptor.TestHandlerInterceptor" />
-    </mvc:interceptor>
-</mvc:interceptors>
+    <mvc:interceptors>
+        <bean class="com.toy.interceptor.LogHandlerInterceptor" />
+        <mvc:interceptor>
+            <mvc:mapping path="/user/**"/>
+            <bean class="com.toy.interceptor.TestHandlerInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
     <!--<bean id="testInterceptor" class="com.toy.interceptor.TestHandlerInterceptor" />
