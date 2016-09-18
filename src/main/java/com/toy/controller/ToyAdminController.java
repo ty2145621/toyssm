@@ -114,6 +114,7 @@ public class ToyAdminController {
         }*/
 
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        /*记住我*/
         token.setRememberMe(true);
         Subject subject = SecurityUtils.getSubject();
 
@@ -127,31 +128,31 @@ public class ToyAdminController {
             }
         } catch (IncorrectCredentialsException e) {
             msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         } catch (ExcessiveAttemptsException e) {
             msg = "登录失败次数过多";
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         } catch (LockedAccountException e) {
             msg = "帐号已被锁定. The account for username " + token.getPrincipal() + " was locked.";
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         } catch (DisabledAccountException e) {
             msg = "帐号已被禁用. The account for username " + token.getPrincipal() + " was disabled.";
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         } catch (ExpiredCredentialsException e) {
             msg = "帐号已过期. the account for username " + token.getPrincipal() + "  was expired.";
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         } catch (UnknownAccountException e) {
             msg = "帐号不存在. There is no user with username of " + token.getPrincipal();
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         } catch (UnauthorizedException e) {
             msg = "您没有得到相应的授权！" + e.getMessage();
-            modelAndView.addObject("message", msg);
+            modelAndView.addObject("error", msg);
             System.out.println(msg);
         }
         modelAndView.setViewName("login");
