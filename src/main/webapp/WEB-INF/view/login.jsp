@@ -39,7 +39,9 @@
                     <label>密&nbsp;&nbsp;码: </label>
                     <input class="form-group" type="text" name="password" value="${password}">
                 </div>
-
+                <div class="form-group">
+                    <input type="checkbox" name="rememberMe" value="true">rememberMe<br/>
+                </div>
                 <button type="submit" class="btn btn-default">提交</button>
             </form:form>
         </div>

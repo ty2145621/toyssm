@@ -26,8 +26,8 @@ public class AdminRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(new HashSet<String>(){
             {
-                add("user");
-                add("admin");
+                //add("user");
+                //add("admin");
             }
         });
 
